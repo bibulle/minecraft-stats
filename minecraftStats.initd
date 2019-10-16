@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+#set -x
 #
 # An init.d script for running a Node.js process as a service using Forever as
 # the process monitor. For more configuration options associated with Forever,
@@ -58,7 +58,7 @@ set -x
 NAME="minecraftStats"
 NODE_BIN_DIR="/usr/local/bin"
 NODE_PATH="/usr/local/lib/node_modules"
-APPLICATION_PATH="/opt/minecraftStats/app.js"
+APPLICATION_PATH="/opt/minecraft-stats/app.js"
 PIDFILE="/var/run/minecraftStats.pid"
 LOGFILE="/var/log/minecraftStats.log"
 MIN_UPTIME="5000"

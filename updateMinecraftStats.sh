@@ -15,5 +15,5 @@ sudo systemctl daemon-reload
 echo "Restarting backend"
 sudo service minecraftStats stop
 sleep 5
-sudo service destinyserver start
+sudo service minecraftStats start
 
