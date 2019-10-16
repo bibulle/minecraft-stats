@@ -22,11 +22,10 @@ var log = require('./modules/log.js'),
   readline = require('readline');
 
 
-//var DB_URL = 'mongodb://bibulle:bibulle@ds157809.mlab.com:57809/mstats';
 var STATS_PATH = '/opt/minecraft/minecraft/world/stats/';
 var LOGS_PATH = '/opt/minecraft/minecraft/logs';
 var LOG_LATEST_PATH = LOGS_PATH + '/latest.log';
-var DB_URL='mongodb://192.168.0.128:27017/mstats';
+var DB_URL='mongodb://localhost:27017/mstats';
 //var STATS_PATH = '/Users/martin/Documents/mine/saves/world/stats/';
 //var LOG_PATH = './example.log';
 

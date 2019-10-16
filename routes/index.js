@@ -4,5 +4,5 @@
  */
 
 exports.index = function(req, res){
-  res.render('index.jade', { title: 'Air Craft : Stats' });
+  res.render('index.jade', { title: 'Minecraft : Stats' });
 };

@@ -10,7 +10,7 @@ set -x
 # built-in service functions are used. So information is provided for both.
 #
 ### BEGIN INIT INFO
-# Provides:             veryStats
+# Provides:             minecraftStats
 # Required-Start:       $syslog $remote_fs
 # Required-Stop:        $syslog $remote_fs
 # Should-Start:         $local_fs
@@ -55,12 +55,12 @@ set -x
 # MIN_UPTIME="5000"
 # SPIN_SLEEP_TIME="2000"
  
-NAME="veryStats"
+NAME="minecraftStats"
 NODE_BIN_DIR="/usr/local/bin"
 NODE_PATH="/usr/local/lib/node_modules"
-APPLICATION_PATH="/opt/veryStats/app.js"
-PIDFILE="/var/run/veryStats.pid"
-LOGFILE="/var/log/veryStats.log"
+APPLICATION_PATH="/opt/minecraftStats/app.js"
+PIDFILE="/var/run/minecraftStats.pid"
+LOGFILE="/var/log/minecraftStats.log"
 MIN_UPTIME="5000"
 SPIN_SLEEP_TIME="2000"
 
