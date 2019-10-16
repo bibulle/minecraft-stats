@@ -10,6 +10,7 @@ var url;
  * Connect to the Db
  */
 module.exports.connect = function(url1, callback) {
+	log.debug('connect');
 	if (db) {
 		return callback(null);
 	}
@@ -28,6 +29,7 @@ module.exports.connect = function(url1, callback) {
  * find all 
  */
 module.exports.findAll = function(callback) {
+	log.debug('findAll');
 	collection.find().toArray(function(err, docs) {
 		if(err) {throw err;}
 		
@@ -39,6 +41,7 @@ module.exports.findAll = function(callback) {
  * find query 
  */
 module.exports.findQuery = function(query, callback) {
+	log.debug('findQuery');
 	collection.find(query).toArray(function(err, docs) {
 		if(err) {throw err;}
 		
@@ -50,6 +53,7 @@ module.exports.findQuery = function(query, callback) {
  * count 
  */
 module.exports.count = function(callback) {
+	log.debug('count');
 	collection.count(function(err, count) {
 		if(err) {throw err;}
 		
@@ -61,6 +65,7 @@ module.exports.count = function(callback) {
  * count by date 
  */
 module.exports.countByDate = function(date, callback) {
+	log.debug('countByDate');
 	collection.count({date: date}, function(err, count) {
 		if(err) {throw err;}
 		
@@ -72,6 +77,7 @@ module.exports.countByDate = function(date, callback) {
  * insert
  */
 module.exports.insert = function(jsonObj, callback) {
+	log.debug('insert');
   //log.debug(JSON.stringify(jsonObj,null,2));
   //log.debug("-----");
   //jsonObj = { item: "card", qty: 15 };
@@ -86,6 +92,7 @@ module.exports.insert = function(jsonObj, callback) {
  * delete
  */
 module.exports.delete = function(date, callback) {
+	log.debug('delete');
 
     if (false) {
         collection.find({date: { $lt : date}}).sort( { date: -1 } ).toArray(function(err, count) {
@@ -115,6 +122,7 @@ module.exports.delete = function(date, callback) {
  * save 
  */
 module.exports.save = function(jsonObj, callback) {
+	log.debug('save');
 	collection.save(jsonObj, function(err, docs) {
 		if(err) {throw err;}
 		
@@ -126,6 +134,7 @@ module.exports.save = function(jsonObj, callback) {
  * close 
  */
 module.exports.close = function(callback) {
+	log.debug('close');
 	db.close();
 	db = null;
 	callback(null, "closed");
