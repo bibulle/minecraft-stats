@@ -1,10 +1,9 @@
-
-var	mongodb = require('mongodb')
+const mongodb = require('mongodb')
 	, log = require('./log.js');
 
-var db;
-var collection;
-var url;
+let db;
+let collection;
+let url;
 
 /**
  * Connect to the Db
@@ -15,6 +14,7 @@ module.exports.connect = function(url1, callback) {
 		return callback(null);
 	}
 	url = url1;
+	// noinspection JSIgnoredPromiseFromCall
 	mongodb.MongoClient.connect(url, function(err, db1) {
 		if(err) {throw err;}
 
@@ -94,18 +94,18 @@ module.exports.insert = function(jsonObj, callback) {
 module.exports.delete = function(date, callback) {
 	log.debug('delete');
 
-    if (false) {
-        collection.find({date: { $lt : date}}).sort( { date: -1 } ).toArray(function(err, count) {
-            if(err) {throw err;}
-
-            log.error(date+" "+count.length);
-            console.dir(count[0]);
-            console.dir(count[0].users[0]);
-
-
-            callback(null, count);
-        });
-    } else {
+    // if (false) {
+    //     collection.find({date: { $lt : date}}).sort( { date: -1 } ).toArray(function(err, count) {
+    //         if(err) {throw err;}
+	//
+    //         log.error(date+" "+count.length);
+    //         console.dir(count[0]);
+    //         console.dir(count[0].users[0]);
+	//
+	//
+    //         callback(null, count);
+    //     });
+    // } else {
         collection.remove({date: { $lt : date}}, function(err, count) {
             if(err) {throw err;}
 
@@ -115,7 +115,7 @@ module.exports.delete = function(date, callback) {
 
             callback(null, count);
         });
-    }
+    // }
 };
 
 /**

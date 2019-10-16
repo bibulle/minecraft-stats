@@ -1,6 +1,6 @@
-var dbStatsProvider = require('./dbStatsProvider')
+const dbStatsProvider = require('./dbStatsProvider')
 	, async = require('async')
-	,	log = require('./log.js');
+	, log = require('./log.js');
 
 /**
  * Clean the Db
@@ -25,33 +25,39 @@ module.exports.cleanDb = function(DB_URL, callback) {
 			}
 			
 			// the async method to launch
-			var calls = [];
+			const calls = [];
 
-			for ( var i in data) {
-				i = parseInt(i);
+			for (let is in data) {
+				// noinspection JSUnfilteredForInLoop
+				let i = parseInt(is);
 				if ((i < 1) || (i > (data.length - 2))) {
 					continue;
 				}
-				var statPrev = data[i - 1];
-				var statCurr = data[i];
-				var statNext = data[1 + i];
+				const statPrev = data[i - 1];
+				const statCurr = data[i];
+				const statNext = data[1 + i];
 
-				var newUsers = [];
-				for ( var j in statCurr.users) {
-					var userCurr = statCurr.users[j];
+				const newUsers = [];
+				for (let j in statCurr.users) {
+					// noinspection JSUnfilteredForInLoop
+					const userCurr = statCurr.users[j];
 
-					var name = userCurr.name;
+					const name = userCurr.name;
 
-					var userPrevJson = null;
-					for ( var k in statPrev.users) {
+					let userPrevJson = null;
+					for (let k in statPrev.users) {
+						// noinspection JSUnfilteredForInLoop
 						if (name === statPrev.users[k].name) {
+							// noinspection JSUnfilteredForInLoop
 							userPrevJson = JSON.stringify(statPrev.users[k]);
 							break;
 						}
 					}
-					var userNextJson = null;
-					for ( var k in statNext.users) {
+					let userNextJson = null;
+					for (let k in statNext.users) {
+						// noinspection JSUnfilteredForInLoop
 						if (name === statNext.users[k].name) {
+							// noinspection JSUnfilteredForInLoop
 							userNextJson = JSON.stringify(statNext.users[k]);
 							break;
 						}
@@ -66,10 +72,10 @@ module.exports.cleanDb = function(DB_URL, callback) {
 				if (statCurr.users.length !== newUsers.length) {
 					// log.info(statCurr.date+" "+statCurr.users.length+" -> "+newUsers.length);
 					statCurr.users = newUsers;
-					
-					calls.push(function(callback) {
+
+					calls.push(function (callback) {
 						log.info("data changed : (" + statCurr.date + ")");
-						dbStatsProvider.save(statCurr, function(err, data) {
+						dbStatsProvider.save(statCurr, function (err) {
 							if (err) {
 								throw err;
 							}
@@ -78,7 +84,7 @@ module.exports.cleanDb = function(DB_URL, callback) {
 					});
 				}
 			}
-			 async.parallel(calls, function(err, result) {
+			 async.parallel(calls, function(err) {
 				 if (err) {throw err;}
 					log.done("cleanDb");
 					

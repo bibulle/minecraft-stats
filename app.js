@@ -4,18 +4,15 @@
 const log = require('./modules/log.js'),
     statsProvider = require('./modules/statsProvider.js'),
     dbStatsProvider = require('./modules/dbStatsProvider.js'),
-    ftp = require('ftp'),
     express = require('express'),
     routes = require('./routes'),
     stats = require('./routes/stats'),
     http = require('http'),
     path = require('path'),
-    //, domain = require('domain'),
     async = require('async'),
     fs = require('fs'),
     os = require('os'),
-    connect = require('connect'),
-    socketio = require('socket.io'),
+    socketIo = require('socket.io'),
     Tail = require('tail').Tail,
     zlib = require('zlib'),
     readline = require('readline'),
@@ -23,7 +20,7 @@ const log = require('./modules/log.js'),
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
-    errorhandler = require('errorhandler');
+    errorHandler = require('errorhandler');
 
 
 // var MINECRAFT_HOME = '/opt/minecraft/minecraft';
@@ -64,7 +61,7 @@ const manageLogLine = function (line, fileDate, io) {
     const match1 = splitRegexp.exec(line);
     if (match1) {
         msgDate.setTime(fileDate.getTime());
-        msgDate.setHours(match1[1], match1[2], match1[3])
+        msgDate.setHours(parseInt(match1[1]), parseInt(match1[2]), parseInt(match1[3]))
     } else {
         //msgDate.setTime(fileDate.getTime() + msgDate.getTime() % (24 * 3600 * 1000));
         //log.error("Wrong log format : " + line);
@@ -78,7 +75,7 @@ const manageLogLine = function (line, fileDate, io) {
         //log.info(line);
 
         msgDate.setDate(msgDate.getDate() + 1);
-    } else if (Math.round(lastMessageTime / 1000) * 1000 == msgDate.getTime()) {
+    } else if (Math.round(lastMessageTime / 1000) * 1000 === msgDate.getTime()) {
         msgDate.setTime(lastMessageTime + 1);
     }
     lastMessageTime = msgDate.getTime();
@@ -92,7 +89,7 @@ const manageLogLine = function (line, fileDate, io) {
 
     //log.info(msgDate+" "+line);
     // add to memory
-    messageMemory.push(payload)
+    messageMemory.push(payload);
     while (messageMemory.length > MEMORY_SIZE) {
         messageMemory.shift();
     }
@@ -185,6 +182,7 @@ const launchServer = function (callback) {
     appExpress.set('views', __dirname + '/views');
     appExpress.set('view engine', 'jade');
     appExpress.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
+    // noinspection JSUnusedGlobalSymbols
     appExpress.use(morgan('combined', {
         skip: function (req, res) {
             return res.statusCode < 400
@@ -193,22 +191,25 @@ const launchServer = function (callback) {
     appExpress.use(bodyParser.urlencoded({extended: false}));
     appExpress.use(methodOverride('X-HTTP-Method-Override'));
 
-    const logger = function (req, res, next) {
-        console.log(req.path);
-        next(); // Passing the request to the next handler in the stack.
-    };
+    // const logger = function (req, res, next) {
+    //     console.log(req.path);
+    //     next(); // Passing the request to the next handler in the stack.
+    // };
+    // appExpress.use(logger);
 
-    //appExpress.use(logger);
-    // appExpress.use(appExpress.router);
     appExpress.use(express.static(path.join(__dirname, 'public')));
 
     // development only
+    // noinspection JSUnresolvedFunction
     if ('development' === appExpress.get('env')) {
-        appExpress.use(errorhandler());
+        appExpress.use(errorHandler());
     }
 
+    // noinspection JSUnresolvedFunction
     appExpress.get('/', routes.index);
+    // noinspection JSUnresolvedFunction
     appExpress.get('/index.html', routes.index);
+    // noinspection JSUnresolvedFunction
     appExpress.get('/stats.json', stats.list);
 
     const httpServer = http.createServer(appExpress).listen(appExpress.get('port'), function () {
@@ -218,11 +219,11 @@ const launchServer = function (callback) {
     /**
      * Socket configuration
      */
-    const io = socketio.listen(httpServer);
+    const io = socketIo.listen(httpServer);
 
-    // Quand un client se connecte, on le note dans la console
+    // When a client connect, note it
     io.sockets.on('connection', function (socket) {
-        log.info('Un client est connecté !');
+        log.info('A client is connected !');
         //socket.emit('new-data', 'tail file : '+LOG_PATH);
         //socket.emit('new-data', '-------------');
 
@@ -241,6 +242,7 @@ const launchServer = function (callback) {
     sendLoad(io);
 
     log.start("prepLog");
+    // noinspection JSUnusedLocalSymbols
     async.series([
             function (callback) {
                 readOldLogs(io, callback)
@@ -287,7 +289,7 @@ const launchStats = function (callback) {
         const hour = new Date();
         hour.setMinutes(0, 0, 0);
 
-        // Get datas from FTP, then save to Db
+        // Get data from FTP, then save to Db
         async.waterfall(
             [
                 // Connect to Db
@@ -354,7 +356,7 @@ const launchStats = function (callback) {
 
                         //callback(null);
 
-                    })
+                    });
 
                     //log.debug(JSON.stringify(jsonObj, null, 2));
 
@@ -364,7 +366,7 @@ const launchStats = function (callback) {
                 // Save data to Db
                 function (jsonObj, callback) {
                     // store to Db
-                    dbStatsProvider.insert(jsonObj, function (err, docs) {
+                    dbStatsProvider.insert(jsonObj, function (err) {
                         if (err) {
                             throw err;
                         }
@@ -384,9 +386,9 @@ const launchStats = function (callback) {
                         if (err) {
                             throw err;
                         }
-                        const outputFilname = __dirname + "/stats.json";
+                        const outputFilename = __dirname + "/stats.json";
 
-                        fs.writeFile(outputFilname, JSON.stringify(docs), function (err) {
+                        fs.writeFile(outputFilename, JSON.stringify(docs), function (err) {
                             if (err) {
                                 throw err;
                             }
@@ -396,11 +398,11 @@ const launchStats = function (callback) {
                     });
 
                 }
-            ], function (err, result) {
+            ], function () {
                 //console.dir(err);
                 //console.dir(result);
                 log.start("close Db");
-                dbStatsProvider.close(function (err, results) {
+                dbStatsProvider.close(function () {
                     log.done("close Db");
                 });
 
