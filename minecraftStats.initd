@@ -64,10 +64,10 @@ LOGFILE="/var/log/minecraftStats.log"
 MIN_UPTIME="5000"
 SPIN_SLEEP_TIME="2000"
 
-#export NODE_ENV="production"
-#export DEBUG=server:*
-#export frontend='["http://themartins.dynamic-dns.net", "http://www.martins.ddns.info", "http://localhost:4200", "http://r2d2", "http://192.168.0.127"]'
- 
+export NODE_ENV="production"
+export DEBUG=server:*
+
+
 # Add node to the path for situations in which the environment is passed.
 PATH=$NODE_BIN_DIR:$PATH
 # Export all environment variables that must be visible for the Node.js

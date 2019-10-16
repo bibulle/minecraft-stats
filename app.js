@@ -23,8 +23,8 @@ const log = require('./modules/log.js'),
     errorHandler = require('errorhandler');
 
 
-// var MINECRAFT_HOME = '/opt/minecraft/minecraft';
-const MINECRAFT_HOME = path.join(__dirname, 'data');
+const MINECRAFT_HOME = '/opt/minecraft/minecraft';
+// const MINECRAFT_HOME = path.join(__dirname, 'data');
 
 const STATS_PATH = path.join(MINECRAFT_HOME, 'world', 'stats');
 const LOGS_PATH = path.join(MINECRAFT_HOME, 'logs');
