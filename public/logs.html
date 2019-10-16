@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <title>Logger</title>
+  <meta charset="utf-8" />
+  <script src="js/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="js/easyNotify.js"></script>
+  <script src="js/displaylogs.js"></script>
+  <link rel="stylesheet" href="css/logs.css">
+</head>
+<body>
+<div class="buttons">
+  <button id="info">Show info</button>
+  <button id="debug">Show debug</button>
+  <button id="save">Show save</button>
+  <button id="overload">Show overload</button>
+  <button id="thread">Show thread</button>
+  <div class="load">Charge : <span class="title">CPU : </span><span id="cpuLoad">??</span> % <span class="title">MEM : </span><span id="memLoad">??</span> %</div>
+</div>
+<div id="container">
+</div>
+</body>
+</html>

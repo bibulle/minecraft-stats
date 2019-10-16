@@ -1,0 +1,197 @@
+@import url(https://fonts.googleapis.com/css?family=PT+Serif|PT+Serif:b|PT+Serif:i|PT+Sans|PT+Sans:b);
+
+html {
+  min-width: 1040px;
+}
+
+body {
+  background: #fcfcfa;
+  color: #333333;
+  font-family: "PT Serif", serif;
+
+	margin-top: 1em;
+  margin-right: auto;
+  margin-bottom: 4em;
+  margin-left: auto;
+
+	position: relative;
+  width: 960px;
+}
+
+header,
+footer,
+aside,
+h1,
+h2,
+h3,
+h4 {
+  font-family: "PT Sans", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: #000;
+}
+
+header,
+footer {
+  color: #636363;
+}
+
+h1 {
+  font-size: 64px;
+  font-weight: 300;
+  letter-spacing: -2px;
+  margin: .3em 0 .1em 0;
+}
+
+h2 {
+  margin-top: 2em;
+}
+
+h1, h2 {
+  text-rendering: optimizeLegibility;
+}
+
+h2 a[name], h2 a[id] {
+  color: #ccc;
+  left: -20px;
+  position: absolute;
+  width: 740px;
+}
+
+header, footer {
+  font-size: small;
+}
+
+header aside, footer aside {
+  float: left;
+  margin-right: .5em;
+}
+
+header aside:after, footer aside:after {
+  padding-left: .5em;
+  content: "/";
+}
+
+header p {
+	float: left;
+	margin-right: 5em;
+}
+
+footer {
+  margin-top: 8em;
+}
+
+h1 small {
+	font-size: 0.3em;
+	vertical-align: -0.3em;
+}
+
+h1 ~ aside {
+  font-size: small;
+  right: 0;
+  position: absolute;
+  width: 250px;
+}
+
+#chart {
+	margin-left: -40px;
+	height: 506px;
+}
+
+.date.label {
+	font: 500 90px "Helvetica Neue";
+	fill: #ddd;
+}
+.hour.label {
+	font: 500 30px "Helvetica Neue";
+	fill: #ddd;
+}
+.date.label.active, .hour.label.active {
+	fill: #aaa;
+}
+
+
+text {
+	font: 11px sans-serif;
+}
+
+.dot {
+	stroke: #000;
+}
+
+.axis path, .axis line {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+}
+
+line.mark {
+	fill: none;
+	stroke: #999;
+	stroke-dasharray: 1 2;
+	shape-rendering: crispEdges;
+}
+text.mark {
+	fill: #999;
+}
+
+.label {
+	fill: #777;
+}
+
+.name.label {
+	fill: #999;
+}
+
+.legend circle{
+	stroke: #bbb;
+	stroke-dasharray: 3 1;
+	fill: none;
+}
+.legend line{
+	stroke: #bbb;
+	fill: none;
+}
+.overlay {
+	fill: none;
+	pointer-events: all;
+	cursor: ew-resize;
+}
+
+.x.label, .y.label, .legend {
+	cursor: pointer;
+}
+
+#menubox  {
+	color: #777;
+	z-index: 100;
+	position: absolute;
+	display: none;
+	background-color: white;
+	padding: 5px;
+	//border: 1px solid #ccc;
+	font: 11px sans-serif;
+}
+
+#menubox table {
+	border-spacing: 2px;
+	border-collapse: separate;
+}
+#menubox td {
+	border: 1px solid #ccc;
+	padding-left: 4px;
+	padding-right: 4px;
+	cursor: pointer;
+}
+#menubox td.selected {
+	font-style: italic;
+}
+
+
+
+
+

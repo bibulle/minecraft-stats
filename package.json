@@ -1,0 +1,19 @@
+{
+  "name": "veryStats",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "async": "*",
+    "cli-color": "*",
+    "connect": "^3.6.0",
+    "express": "3.2.6",
+    "ftp": "*",
+    "jade": "*",
+    "mongodb": "^2.2.24",
+    "socket.io": "^1.7.3",
+    "tail": "^1.2.1"
+  }
+}

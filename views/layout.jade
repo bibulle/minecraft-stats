@@ -1,0 +1,20 @@
+doctype html
+html
+	head
+		title= title
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		<!-- Bootstrap -->
+		link(rel='stylesheet', href='css/bootstrap.css')
+		link(rel='stylesheet', href='css/bootstrap-theme.css')
+		link(rel='stylesheet', href='css/style.css')
+		script(src="https://d3js.org/d3.v3.js")
+		script(src="js/d3chart.js")
+		//script(src="https://dl.dropboxusercontent.com/s/ol92a047anrarha/d3chart.js?dl=1&token_hash=AAHEJaIiZ30Gd8sl8ZN70N3hdZ7twMMrmaq3UEGWgXEQ7A")
+	body(onLoad="loadData()")
+		header
+			aside Janvier, 2014
+			p Bibulle
+			a(href="logs.html") -> Real time logs
+		h1 Stats...
+			small v1.0		
+		block content

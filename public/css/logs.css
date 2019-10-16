@@ -1,0 +1,100 @@
+@import url(https://fonts.googleapis.com/css?family=PT+Serif|PT+Serif:b|PT+Serif:i|PT+Sans|PT+Sans:b);
+
+html {
+}
+
+body {
+    background: #fcfcfa;
+    color: #333333;
+    font-family: "PT Sans", sans-serif;
+    /*font-family: "PT Serif", serif;*/
+
+    margin-top: 0;
+    margin-bottom: 0;
+
+    margin-right: auto;
+    margin-left: auto;
+
+    width: 1300px;
+
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+}
+
+.buttons {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+button {
+    font-size: 14px;
+}
+.load {
+    float: right;
+    font-size: 0.8em;
+    color: #5e5e5e;
+}
+
+.load .title {
+    padding-left: 1em;
+}
+
+#container {
+    overflow: auto;
+    padding-bottom: 2em;
+}
+
+#container .debug, #container .save, #container .overload, #container .thread, #container .info {
+    display: none;
+}
+#container.debug .debug, #container.save .save, #container.overload .overload, #container.info .info {
+    display: flex;
+}
+#container.thread .thread {
+    display: inline;
+}
+
+#container .debug {
+    color: #999999;
+}
+#container .save {
+    color: #66a267;
+}
+#container .overload {
+    color: #d58512;
+}
+#container .important {
+    color: #804040;
+    font-weight: bolder;
+}
+
+#container div {
+    display: flex;
+}
+#container .date {
+    font-weight: bold;
+    padding-right: 0.5em;
+    flex: 0 1 1%;
+}
+#container .thread {
+    font-style: italic;
+    padding-right: 0.5em;
+    flex: 0 1 13%;
+    text-align: center;
+    font-size: 0.9em;
+}
+#container .msg {
+    flex: 0 1 100%;
+}
+#container .small {
+    font-size: 0.8em;
+}
+
+.newDate {
+    color: #cb7979;
+    font-weight: bolder;
+    border-top: solid 1px;
+    margin-top: 5px;
+}
+
+
