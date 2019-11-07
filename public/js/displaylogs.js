@@ -174,6 +174,7 @@ $(document).ready(function() {
     container.append(newItem);
   });
   socket.on('error', function(data) {
+    console.log(data);
     var msg = data || 'error' ;
     var newItem = $('<div class="debug">' + msg + '</div>');
     container.append(newItem);
