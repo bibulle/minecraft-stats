@@ -30,7 +30,7 @@ const STATS_PATH = path.join(MINECRAFT_HOME, 'world', 'stats');
 const LOGS_PATH = path.join(MINECRAFT_HOME, 'logs');
 
 const LOG_LATEST_PATH = LOGS_PATH + '/latest.log';
-const DB_URL = 'mongodb://localhost:27017/mstats';
+const DB_URL = 'mongodb://192.168.0.128:27017/mstats';
 
 const MEMORY_SIZE = 5000;
 
