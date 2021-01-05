@@ -5,11 +5,11 @@ const dbStatsProvider = require('./dbStatsProvider')
 /**
  * Clean the Db
  */
-module.exports.cleanDb = function(DB_URL, callback) {
+module.exports.cleanDb = function(DB_URL, DB_NAME, callback) {
 	
 	log.start("cleanDb");
 	// Change Db model
-	dbStatsProvider.connect(DB_URL, function(err) {
+	dbStatsProvider.connect(DB_URL, DB_NAME, function(err) {
 		if (err) {
 			throw err;
 		}

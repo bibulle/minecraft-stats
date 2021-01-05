@@ -1,6 +1,7 @@
 const mongodb = require('mongodb')
 	, log = require('./log.js');
 
+let client;
 let db;
 let collection;
 let url;
@@ -8,17 +9,18 @@ let url;
 /**
  * Connect to the Db
  */
-module.exports.connect = function(url1, callback) {
+module.exports.connect = function(url1, name, callback) {
 	log.debug('connect');
 	if (db) {
 		return callback(null);
 	}
 	url = url1;
 	// noinspection JSIgnoredPromiseFromCall
-	mongodb.MongoClient.connect(url, function(err, db1) {
+	mongodb.MongoClient.connect(url, function(err, client1) {
 		if(err) {throw err;}
 
-		db = db1;
+		client = client1;
+		db = client.db(name);
 		collection = db.collection('values');
 		
 		callback(null);
@@ -123,7 +125,7 @@ module.exports.delete = function(date, callback) {
  */
 module.exports.save = function(jsonObj, callback) {
 	log.debug('save');
-	collection.save(jsonObj, function(err, docs) {
+	collection.updateOne({date: jsonObj.date}, { $set: jsonObj}, function(err, docs) {
 		if(err) {throw err;}
 		
 		callback(null, docs);
@@ -135,8 +137,8 @@ module.exports.save = function(jsonObj, callback) {
  */
 module.exports.close = function(callback) {
 	log.debug('close');
-	db.close();
-	db = null;
+	// client.close();
+	// db = null;
 	callback(null, "closed");
 };
 

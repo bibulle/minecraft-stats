@@ -24,20 +24,21 @@ const log = require('./modules/log.js'),
 
 
 const MINECRAFT_HOME = '/opt/minecraft/minecraft';
-// const MINECRAFT_HOME = path.join(__dirname, 'data');
+//const MINECRAFT_HOME = path.join(__dirname, 'data');
 
 const STATS_PATH = path.join(MINECRAFT_HOME, 'world', 'stats');
 const LOGS_PATH = path.join(MINECRAFT_HOME, 'logs');
 
 const LOG_LATEST_PATH = LOGS_PATH + '/latest.log';
-const DB_URL = 'mongodb://192.168.0.128:27017/mstats';
+const DB_URL1 = 'mongodb://192.168.0.128:27017';
+const DB_NAME = 'mstats';
 
 const MEMORY_SIZE = 5000;
 
 const init = function (callback) {
     log.start("init");
 
-    statsProvider.cleanDb(DB_URL);
+    statsProvider.cleanDb(DB_URL1, DB_NAME);
 
 
     log.done("init");
@@ -180,7 +181,7 @@ const launchServer = function (callback) {
     // all environments
     appExpress.set('port', process.env.PORT || 3000);
     appExpress.set('views', __dirname + '/views');
-    appExpress.set('view engine', 'jade');
+    appExpress.set('view engine', 'pug');
     appExpress.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
     // noinspection JSUnusedGlobalSymbols
     appExpress.use(morgan('combined', {
@@ -295,7 +296,7 @@ const launchStats = function (callback) {
                 // Connect to Db
                 function (callback) {
                     //Db access
-                    dbStatsProvider.connect(DB_URL, callback);
+                    dbStatsProvider.connect(DB_URL1, DB_NAME, callback);
                 },
                 // Check if already in Db
                 function (callback) {

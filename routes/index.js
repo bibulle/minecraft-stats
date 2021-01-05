@@ -4,5 +4,5 @@
  */
 
 exports.index = function(req, res){
-  res.render('index.jade', { title: 'Minecraft : Stats' });
+  res.render('index.pug', { title: 'Minecraft : Stats' });
 };
