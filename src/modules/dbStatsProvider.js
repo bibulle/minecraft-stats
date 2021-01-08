@@ -10,19 +10,24 @@ let url;
  * Connect to the Db
  */
 module.exports.connect = function(url1, name, callback) {
-	log.debug('connect');
+	log.start('connect');
 	if (db) {
+		log.done('connect');
 		return callback(null);
 	}
 	url = url1;
 	// noinspection JSIgnoredPromiseFromCall
 	mongodb.MongoClient.connect(url, function(err, client1) {
-		if(err) {throw err;}
+		if(err) {
+			log.done('connect');
+			throw err;
+		}
 
 		client = client1;
 		db = client.db(name);
 		collection = db.collection('values');
 		
+		log.done('connect');
 		callback(null);
 	});
 };
@@ -31,10 +36,14 @@ module.exports.connect = function(url1, name, callback) {
  * find all 
  */
 module.exports.findAll = function(callback) {
-	log.debug('findAll');
+	log.start('findAll');
 	collection.find().toArray(function(err, docs) {
-		if(err) {throw err;}
+		if(err) {
+			log.end('findAll');
+			throw err;
+		}
 		
+		log.end('findAll');
 		callback(null, docs);
 	});
 };
@@ -68,9 +77,9 @@ module.exports.count = function(callback) {
  */
 module.exports.countByDate = function(date, callback) {
 	log.debug('countByDate');
-	collection.count({date: date}, function(err, count) {
+	collection.countDocuments({date: date}, function(err, count) {
 		if(err) {throw err;}
-		
+
 		callback(null, count);
 	});
 };
