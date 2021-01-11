@@ -37,22 +37,90 @@ module.exports.connect = function (url1, name, callback) {
  */
 module.exports.findAll = function (callback) {
   log.start("findAll");
-  collection.find().toArray(function (err, docs) {
-    if (err) {
-      log.end("findAll");
-      throw err;
-    }
 
-    log.end("findAll");
-    callback(null, docs);
-  });
+  let now = new Date();
+  let nowMinus1Month = new Date();
+  nowMinus1Month.setMonth(nowMinus1Month.getMonth() - 1);
+  let nowMinus3Month = new Date();
+  nowMinus3Month.setMonth(nowMinus3Month.getMonth() - 3);
+  let nowMinus6Month = new Date();
+  nowMinus6Month.setMonth(nowMinus6Month.getMonth() - 6);
+
+  // log.debug(now);
+  // log.debug(nowMinus1Month);
+  // log.debug(nowMinus6Month); 
+
+  let query = { date: { $gt: nowMinus1Month } };
+
+  //collection.find(query).toArray(function (err, docs) {
+  collection
+    .aggregate([
+      {
+        $project: {
+          timePart: { $dateToString: { format: "%H:%M:%S:%L", date: "$date" } },
+          date: 1,
+          users: 1
+        },
+      },
+      {
+        $match: {
+          $or: [
+            {
+              date: { $gt: nowMinus1Month }
+            },
+            {
+              date: { $lte: nowMinus1Month },
+              date: { $gt: nowMinus3Month },
+              $or: [
+                {timePart: "00:00:00:000"},
+                {timePart: "06:00:00:000"},
+                {timePart: "12:00:00:000"},
+                {timePart: "18:00:00:000"},
+              ]
+            },
+            {
+              date: { $lte: nowMinus3Month },
+              date: { $gt: nowMinus6Month },
+              $or: [
+                {timePart: "00:00:00:000"},
+                {timePart: "12:00:00:000"}, 
+              ]
+            },
+            {
+              date: { $lte: nowMinus6Month },
+              timePart: "12:00:00:000"
+            }
+          ] 
+        },
+      },
+      {
+        $project: {
+          date: 1,
+          users: 1
+        },
+      },
+    ])
+    .toArray(function (err, docs) {
+      if (err) {
+        log.end("findAll");
+        throw err;
+      }
+      // log.debug("====================");
+      // log.debug(docs.map((o) => o.date).join("\n"));
+      // log.debug("====================");
+      // console.log(docs[0]);
+      // log.debug("====================");
+
+      log.end("findAll");
+      callback(null, docs);
+    });
 };
 
 /**
  * find query
  */
 module.exports.findQuery = function (query, callback) {
-  log.debug("findQuery"); 
+  log.debug("findQuery");
   collection.find(query).toArray(function (err, docs) {
     if (err) {
       throw err;
@@ -111,42 +179,42 @@ module.exports.insert = function (jsonObj, callback) {
  * delete before a date
  */
 module.exports.deleteBefore = function (date, callback) {
-	log.start("deleteBefore");
-  
-	collection.deleteMany({ date: { $lt: date } }, function (err, commandResult) {
-	  if (err) {
-		log.end("deleteBefore");
-		throw err;
-	  }
-  
-	  log.info(date + " -> deleted : " + commandResult.result.n);
-	  //console.dir(count);
-  
-	  log.end("deleteBefore");
-	  callback(null, commandResult.result.n);
-	});
-  };
-  
-  /**
+  log.start("deleteBefore");
+
+  collection.deleteMany({ date: { $lt: date } }, function (err, commandResult) {
+    if (err) {
+      log.end("deleteBefore");
+      throw err;
+    }
+
+    log.info(date + " -> deleted : " + commandResult.result.n);
+    //console.dir(count);
+
+    log.end("deleteBefore");
+    callback(null, commandResult.result.n);
+  });
+};
+
+/**
  * delete a doc
  */
 module.exports.deleteOne = function (doc, callback) {
-	log.start("deleteOne");
-  
-	collection.deleteOne({ _id: doc._id }, function (err, commandResult) {
-	  if (err) {
-		log.end("deleteOne");
-		throw err;
-	  }
-  
-	  log.info(doc.date + " -> deleted : " + commandResult.result.n);
-	  //console.dir(count);
-  
-	  log.end("deleteOne");
-	  callback(null, commandResult.result.n);
-	});
-  };
-  
+  log.start("deleteOne");
+
+  collection.deleteOne({ _id: doc._id }, function (err, commandResult) {
+    if (err) {
+      log.end("deleteOne");
+      throw err;
+    }
+
+    log.info(doc.date + " -> deleted : " + commandResult.result.n);
+    //console.dir(count);
+
+    log.end("deleteOne");
+    callback(null, commandResult.result.n);
+  });
+};
+
 /**
  * save
  */
