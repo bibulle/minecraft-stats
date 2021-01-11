@@ -5,6 +5,7 @@ const log = require("./modules/log.js"),
   statsProvider = require("./modules/statsProvider.js"),
   dbStatsProvider = require("./modules/dbStatsProvider.js"),
   express = require("express"),
+  compression = require('compression'),
   routes = require("./routes"),
   stats = require("./routes/stats"),
   http = require("http"),
@@ -23,7 +24,7 @@ const log = require("./modules/log.js"),
   errorHandler = require("errorhandler");
 
 //const MINECRAFT_HOME = '/opt/minecraft/minecraft';
-const MINECRAFT_HOME1 = "/data";
+const MINECRAFT_HOME1 = process.env.MINECRAFT_HOME || "/data";
 const STATS_PATH1 = path.join(MINECRAFT_HOME1, "world", "stats");
 const LOGS_PATH1 = path.join(MINECRAFT_HOME1, "logs");
 const LOG_LATEST_PATH1 = LOGS_PATH1 + "/latest.log";
@@ -35,7 +36,8 @@ const LOG_LATEST_PATH2 = LOGS_PATH2 + "/latest.log";
 
 const OUTPUT_FILENAME = __dirname + "/stats.json";
 
-const DB_URL1 = "mongodb://192.168.0.128:27017";
+//const DB_URL1 = "mongodb://192.168.0.128:27017";
+const DB_URL1 = process.env.DB_URL || "mongodb://localhost:27017";
 const DB_NAME = "mstats";
 
 const MEMORY_SIZE = 5000;
@@ -128,7 +130,7 @@ const readOldLogs = function (io, callback) {
 
       const lineReader = readline.createInterface({
         input: fs
-          .createReadStream(LOGS_PATH + "/" + file)
+          .createReadStream(getLogsPath() + "/" + file)
           .pipe(zlib.createGunzip()),
       });
 
@@ -205,6 +207,9 @@ const launchServer = function (callback) {
   );
   appExpress.use(bodyParser.urlencoded({ extended: false }));
   appExpress.use(methodOverride("X-HTTP-Method-Override"));
+  // Compress all HTTP responses
+  appExpress.use(compression());
+
 
   // const logger = function (req, res, next) {
   //     console.log(req.path);
@@ -454,9 +459,8 @@ const createCacheFile = function (callback) {
       log.done("createCacheFile");
       throw err;
     }
-    log.debug(docs.length);
+    log.info(`${docs.length} documents added to '${OUTPUT_FILENAME}'`);
 
-    log.debug(OUTPUT_FILENAME);
     fs.writeFile(OUTPUT_FILENAME, JSON.stringify(docs), function (err) {
       if (err) {
         log.done("createCacheFile");

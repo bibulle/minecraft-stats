@@ -5,3 +5,4 @@ npm-debug.log
 .git
 
 stats.json
+src/stats.json

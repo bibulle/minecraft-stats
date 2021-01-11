@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "start": "DEBUG=server:* forever app.js",
-    "start-dev": "DEBUG=server:* nodemon node src/app.js"
+    "start-dev": "DEBUG=server:* nodemon --ignore 'src/stats.json' node src/app.js"
   },
   "dependencies": {
     "async": "*",
     "body-parser": "latest",
     "cli-color": "*",
+    "compression": "^1.7.4",
     "connect": "^3.7.0",
     "debug": "latest",
     "errorhandler": "^1.5.1",
