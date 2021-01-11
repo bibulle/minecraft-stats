@@ -112,9 +112,9 @@ module.exports.cleanDb = function (DB_URL, DB_NAME, callback) {
       //   }
          log.done("cleanDb");
 
-      //   if (typeof callback !== "undefined") {
-      //     callback(null);
-      //   }
+        if (typeof callback !== "undefined") {
+          callback(null);
+        }
       // });
     });
   });

@@ -50,9 +50,6 @@ module.exports.findAll = function (callback) {
   // log.debug(nowMinus1Month);
   // log.debug(nowMinus6Month); 
 
-  let query = { date: { $gt: nowMinus1Month } };
-
-  //collection.find(query).toArray(function (err, docs) {
   collection
     .aggregate([
       {
