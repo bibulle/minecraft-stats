@@ -28,93 +28,125 @@ module.exports.cleanDb = function (DB_URL, DB_NAME, callback) {
         throw err;
       }
 
-      // // the async method to launch
-      // const calls = [];
-
-      // for (let is in data) {
-      //   // noinspection JSUnfilteredForInLoop
-      //   let i = parseInt(is);
-      //   if (i < 1 || i > data.length - 2) {
-      //     continue;
-      //   }
-      //   const statPrev = data[i - 1];
+      // get user list
+      // let userList = [];
+      // let timePlayed = {};
+      // for (let i = 0; i < data.length - 1; i++) {
       //   const statCurr = data[i];
-      //   const statNext = data[1 + i];
+      //   for (let k = 0; k < statCurr.users.length; k++) {
+      //     const user = statCurr.users[k];
+      //     if (userList.indexOf(user.name) < 0) {
+      //       //log.debug(user.name);
+      //       userList.push(user.name);
 
-      //   if (statCurr.users.length == 0) {
-      //     debug("users vide " + i + " (" + statCurr.date + ")");
-      //     calls.push(function (callback) {
-      //       log.info("data deleted : (" + statCurr.date + ") users vide");
-      //       dbStatsProvider.deleteOne(statCurr, function (err) {
-      //         if (err) {
-      //           throw err;
-      //         }
-      //         callback(null);
-      //       });
-      //     });
-      //     continue;
-      //   }
-
-      //   const newUsers = [];
-      //   for (let j in statCurr.users) {
-      //     // noinspection JSUnfilteredForInLoop
-      //     const userCurr = statCurr.users[j];
-
-      //     const name = userCurr.name;
-
-      //     let userPrevJson = null;
-      //     for (let k in statPrev.users) {
-      //       // noinspection JSUnfilteredForInLoop
-      //       if (name === statPrev.users[k].name) {
-      //         // noinspection JSUnfilteredForInLoop
-      //         userPrevJson = JSON.stringify(statPrev.users[k]);
-      //         break;
+      //       timePlayed[user.name] =
+      //         user.stats["minecraft:custom"]["minecraft:play_one_minute"];
+      //     } else {
+      //       if (
+      //         timePlayed[user.name] <
+      //         user.stats["minecraft:custom"]["minecraft:play_one_minute"]
+      //       ) {
+      //         timePlayed[user.name] =
+      //           user.stats["minecraft:custom"]["minecraft:play_one_minute"];
       //       }
       //     }
-      //     let userNextJson = null;
-      //     for (let k in statNext.users) {
-      //       // noinspection JSUnfilteredForInLoop
-      //       if (name === statNext.users[k].name) {
-      //         // noinspection JSUnfilteredForInLoop
-      //         userNextJson = JSON.stringify(statNext.users[k]);
-      //         break;
-      //       }
-      //     }
-
-      //     if (
-      //       userPrevJson &&
-      //       userPrevJson === userNextJson &&
-      //       userPrevJson === JSON.stringify(userCurr)
-      //     ) {
-      //       continue;
-      //     }
-      //     newUsers.push(userCurr);
-      //   }
-
-      //   if (statCurr.users.length !== newUsers.length) {
-      //     // log.info(statCurr.date+" "+statCurr.users.length+" -> "+newUsers.length);
-      //     statCurr.users = newUsers;
-
-      //     calls.push(function (callback) {
-      //       log.info("data changed : (" + statCurr.date + ")");
-      //       dbStatsProvider.save(statCurr, function (err) {
-      //         if (err) {
-      //           throw err;
-      //         }
-      //         callback(null);
-      //       });
-      //     });
       //   }
       // }
-      // async.series(calls, function (err) {
-      //   if (err) {
-      //     throw err;
-      //   }
-         log.done("cleanDb");
+      //console.log(timePlayed);
 
-        if (typeof callback !== "undefined") {
-          callback(null);
-        }
+      // for (let h = 0; h < userList.length; h++) {
+      //   const userName = userList[h];
+      //   const userShouldBeDeleted = timePlayed[userName] < 2000;
+
+      //   for (let i = 0; i < data.length - 1; i++) {
+      //     const statCurr = data[i];
+      //     const statNext = data[i + 1];
+
+      //     // if needed, remove the user
+      //     if (userShouldBeDeleted) {
+      //       statCurr.users = statCurr.users.filter((o) => {
+      //         return o.name !== userName;
+      //       });
+      //       dbStatsProvider.save(statCurr, () => {
+      //         log.debug(
+      //           `one update done ${statCurr.date} (remove ${userName})`
+      //         );
+      //       });
+      //       statNext.users = statNext.users.filter((o) => {
+      //         return o.name !== userName;
+      //       });
+      //       dbStatsProvider.save(statNext, () => {
+      //         log.debug(
+      //           `one update done ${statNext.date} (remove ${userName})`
+      //         );
+      //       });
+
+      //       continue;
+      //     }
+      //     if (statCurr.date.getTime() >= statNext.date.getTime()) {
+      //       log.debug(` !!!!! ${statCurr.date} >= ${statNext.date}`);
+      //     } else {
+      //       let userCurr;
+      //       let valCurr;
+      //       let valNext;
+      //       for (let k = 0; k < statCurr.users.length; k++) {
+      //         const user = statCurr.users[k];
+      //         if (user.name === userName) {
+      //           // log.debug(`${statCurr.date} ${user.stats["minecraft:mined"]["minecraft:diamond_ore"]}`);
+      //           userCurr = user;
+      //           if (user.stats["minecraft:custom"])
+      //             valCurr =
+      //               user.stats["minecraft:custom"]["minecraft:play_one_minute"];
+      //         }
+      //       }
+      //       for (let k = 0; k < statNext.users.length; k++) {
+      //         const user = statNext.users[k];
+      //         if (user.name === userName) {
+      //           // log.debug(`${statNext.date} ${user.stats["minecraft:mined"]["minecraft:diamond_ore"]}`);
+      //           if (user.stats["minecraft:custom"])
+      //             valNext =
+      //               user.stats["minecraft:custom"]["minecraft:play_one_minute"];
+      //         }
+      //       }
+
+      //       if (valCurr && valNext && valCurr > valNext) {
+      //         // time go backward... not good
+      //         log.debug(`${userName} ${statCurr.date} ${valCurr} > ${valNext}`);
+
+      //         // remove the user and then add the previous one
+      //         statNext.users = statNext.users.filter((o) => {
+      //           return o.name !== userName;
+      //         });
+      //         statNext.users.push(userCurr);
+      //         // dbStatsProvider.save(statNext, () => {
+      //         //   log.debug(`one update done ${statNext.date}`);
+      //         // });
+
+      //       } else if (valCurr && !valNext) {
+      //         // a value is undefined add it
+      //         log.debug(`${userName} ${statCurr.date} ${valCurr} & !next ${valNext}`);
+
+      //         //console.log(statNext);
+      //         statNext.users.push(userCurr);
+      //         //console.log(statNext);
+
+      //         dbStatsProvider.save(statNext, () => {
+      //           log.debug(`one update done ${statNext.date}`);
+      //         });
+      //       }
+
+      //       // if (i === data.length - 2) {
+      //       //   log.debug(`${userName} ${statNext.date} last ${valNext}`);
+      //       // }
+      //     }
+      //   }
+      // }
+
+      log.done("cleanDb");
+
+      if (typeof callback !== "undefined") {
+        callback(null);
+      }
       // });
     });
   });

@@ -96,7 +96,15 @@ module.exports.findAll = function (callback) {
           users: 1
         },
       },
-    ])
+      {
+        $sort: {
+          date: 1
+        },
+      },
+    ],
+    { 
+        allowDiskUse: true
+    })
     .toArray(function (err, docs) {
       if (err) {
         log.end("findAll");
