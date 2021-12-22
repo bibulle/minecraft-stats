@@ -89,17 +89,17 @@ $(document).ready(function() {
 
     // get global type
     var classe = "info";
-    if (msg.match(/: \[Server\] SERVER BACKUP STARTING. Server going readonly[.][.][.]/)) {
+    if (msg.match(/: \[Rcon\] SERVER BACKUP STARTING. Server going readonly[.][.][.]/)) {
       classe="save";
-    } else if (msg.match(/: Turned off world auto-saving/)) {
+    } else if (msg.match(/: Automatic saving is now disabled/)) {
       classe="save";
-    } else if (msg.match(/: Saving[.][.][.]/)) {
+    } else if (msg.match(/: Saved the game/)) {
       classe="save";
     } else if (msg.match(/: Saved the world/)) {
       classe="save";
-    } else if (msg.match(/: Turned on world auto-saving/)) {
+    } else if (msg.match(/: Automatic saving is now enabled/)) {
       classe="save";
-    } else if (msg.match(/: \[Server\] SERVER BACKUP ENDED. Server going read-write[.][.][.]/)) {
+    } else if (msg.match(/: \[Rcon\] SERVER BACKUP ENDED. Server going read-write[.][.][.]/)) {
       classe="save";
     } else if (msg.match(/: Can't keep up! Is the server overloaded?/)) {
       classe="overload";
