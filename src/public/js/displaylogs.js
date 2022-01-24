@@ -111,13 +111,15 @@ $(document).ready(function() {
       classe="important";
     } else if (msg.match(/: .* joined the game$/)) {
       classe="important";
+    } else if (msg.match(/: .* logged in with entity/)) {
+      classe="important";
     } else if (msg.match(/: .* has made the advancement/)) {
       classe="important";
     } else if (msg.match(/: .* left the game$/)) {
       classe="important";
     } else if (msg.match(/: (&lt;|[\[]).*(&gt;|[\]])/)) {
       classe="important";
-    } else if (msg.match(/: [^ ]* (was|burned|fell)/)) {
+    } else if (msg.match(/: [^ ]* (was|burned|fell|died)/)) {
       classe="important";
     }
 
