@@ -119,7 +119,9 @@ $(document).ready(function() {
       classe="important";
     } else if (msg.match(/: .* left the game$/)) {
       classe="important";
-    } else if (msg.match(/: [^ ]* (was|burned|fell|died)/)) {
+    } else if (msg.match(/: [^ ]* (was|burned|fell)/)) {
+      classe="important";
+    } else if (msg.match(/Villager .* died, message:/)) {
       classe="important";
     }
 
