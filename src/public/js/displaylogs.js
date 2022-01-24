@@ -107,6 +107,8 @@ $(document).ready(function() {
       classe="overload";
     } else if (msg.match(/: Ambiguity between arguments/)) {
       classe="info";
+    } else if (msg.match(/: (&lt;|[\[]).*(&gt;|[\]])/)) {
+      classe="info";
     } else if (msg.match(/: Starting minecraft server/)) {
       classe="important";
     } else if (msg.match(/: .* joined the game$/)) {
@@ -116,8 +118,6 @@ $(document).ready(function() {
     } else if (msg.match(/: .* has made the advancement/)) {
       classe="important";
     } else if (msg.match(/: .* left the game$/)) {
-      classe="important";
-    } else if (msg.match(/: (&lt;|[\[]).*(&gt;|[\]])/)) {
       classe="important";
     } else if (msg.match(/: [^ ]* (was|burned|fell|died)/)) {
       classe="important";
